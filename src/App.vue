@@ -18,7 +18,9 @@ import TodoList from "./components/todo-list.vue";
 export default {
   data() {
     return {
-      todoItems: [],
+      todoItems: this.loadTodos() || [
+        { key: 1, item: "haha", completed: false },
+      ],
     };
   },
   methods: {
@@ -28,29 +30,36 @@ export default {
         item: value,
         completed: false,
       };
-      localStorage.setItem(todoItem.key, JSON.stringify(todoItem));
       this.todoItems.unshift(todoItem);
+      localStorage.setItem("TODOS", JSON.stringify(this.todoItems));
     },
     toggleOneItem(todoItem) {
       todoItem.completed = !todoItem.completed;
-      localStorage.setItem(todoItem.key, JSON.stringify(todoItem));
+      localStorage.setItem("TODOS", JSON.stringify(this.todoItems));
     },
-    removeOneItem(todoItem, index) {
-      localStorage.removeItem(todoItem.key);
-      this.todoItems.splice(index, 1);
+    removeOneItem(item) {
+      console.log(this.todoItems);
+      const updated = this.todoItems.filter(
+        (todoItem) => todoItem.key !== item.key
+      );
+      console.log(updated);
+      this.todoItems = updated;
+      localStorage.setItem("TODOS", JSON.stringify(updated));
     },
-  },
-  created() {
-    if (localStorage.length > 0) {
-      for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i) !== "loglevel:webpack-dev-server") {
-          this.todoItems.push(
-            JSON.parse(localStorage.getItem(localStorage.key(i)))
-          );
-        }
+    loadTodos() {
+      const toDos_ls = localStorage.getItem("TODOS");
+      if (toDos_ls === null) {
+        return;
       }
-    }
+      const toDos = JSON.parse(toDos_ls);
+      console.log(toDos);
+      return toDos;
+    },
   },
+  // created() {
+  //   this.todoItems = JSON.parse(localStorage.getItem("TODOS"));
+  // },
+
   components: {
     TodoHeader,
     TodoInput,

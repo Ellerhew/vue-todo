@@ -25,7 +25,6 @@ export default {
       }
       this.$emit("addItem", this.newTodoItem);
       this.newTodoItem = "";
-      this.newTodoItem.focus();
     },
   },
 };
