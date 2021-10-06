@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <TodoHeader></TodoHeader>
-    <TodoInput v-on:addItem="addOneItem"></TodoInput>
-    <TodoList
-      :propsdata="todoItems"
-      v-on:removeItem="removeOneItem"
-      v-on:toggleItem="toggleOneItem"
-    ></TodoList>
+    <div class="container">
+      <TodoHeader></TodoHeader>
+      <TodoInput v-on:addItem="addOneItem"></TodoInput>
+      <TodoList
+        :propsdata="todoItems"
+        v-on:removeItem="removeOneItem"
+        v-on:toggleItem="toggleOneItem"
+      ></TodoList>
+    </div>
   </div>
 </template>
 
@@ -38,11 +40,9 @@ export default {
       localStorage.setItem("TODOS", JSON.stringify(this.todoItems));
     },
     removeOneItem(item) {
-      console.log(this.todoItems);
       const updated = this.todoItems.filter(
         (todoItem) => todoItem.key !== item.key
       );
-      console.log(updated);
       this.todoItems = updated;
       localStorage.setItem("TODOS", JSON.stringify(updated));
     },
@@ -52,7 +52,6 @@ export default {
         return;
       }
       const toDos = JSON.parse(toDos_ls);
-      console.log(toDos);
       return toDos;
     },
   },
@@ -69,14 +68,26 @@ export default {
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  background-color: rgb(136, 148, 187);
-  width: 650px;
-  margin: 100px auto;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(50, 66, 61);
+  display: flex;
+  align-items: center;
+}
+.container {
+  background-color: rgb(237, 241, 238);
+  width: 800px;
+  height: 600px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0px 5px 13px 5px #90a191;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 30px;
 }
 </style>

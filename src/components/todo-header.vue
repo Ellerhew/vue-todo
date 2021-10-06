@@ -5,7 +5,12 @@
 </template>
 
 <style>
+header {
+  width: 100%;
+}
 h1 {
-  color: aqua;
+  color: #6e806f;
+  margin: 0px;
+  width: 100%;
 }
 </style>
